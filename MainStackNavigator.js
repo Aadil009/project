@@ -11,8 +11,23 @@ function MainStackNavigator() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name='Home' component={Home} />
-        <Stack.Screen name='RouteMap' component={RouteMap} />
+        <Stack.Screen name="LET'S GO PUNEKAR'S" component={Home}
+          options={{
+            headerTitleAlign:'center'
+            //headerTransparent: true,
+            // headerBackground: () => (
+            //   <BlurView tint="light" intensity={100} style={StyleSheet.absoluteFill} />
+            // ),
+          }} />
+        <Stack.Screen name='RouteMap' component={RouteMap}
+        options={{
+          headerTitleAlign:'center'
+          //headerTransparent: true,
+          // headerBackground: () => (
+          //   <BlurView tint="light" intensity={100} style={StyleSheet.absoluteFill} />
+          // ),
+        }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   )

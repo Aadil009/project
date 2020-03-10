@@ -35,11 +35,18 @@ export default class RouteMap extends React.Component {
    render() {
    const params = this.props.route.params;
     pdata = params.pdata;
+    // const params1 = this.props.route.params;
+    // sdata = params1.sdata;
    var markers = [{longitude:0, latitude:0}]
    for(var i=0;i<pdata.length;i++) {
      markers[i] = {longitude: Number(pdata[i].long),
-           latitude: Number(pdata[i].lat)};
+           latitude: Number(pdata[i].lat)
+          };
      }
+    //  var title=[]
+    //  for(var i=0;i<sdata.length;i++) {
+    //   title[i] = {title: String(sdata[i].stopname)};
+    //   }
    return (
      <MapView style={styles.map} initialRegion={{
       latitude:18.18,
@@ -49,9 +56,12 @@ export default class RouteMap extends React.Component {
       
       
  
-     }}>
+     }}
+     showsUserLocation={true}>
      {markers.map(marker => (<MapView.Marker
        coordinate={marker}
+      //  title={title}
+      // image={icons[marker.type] || icons.default}
      />))
      }
      <MapView.Polyline
