@@ -16,54 +16,52 @@ import MapView from 'react-native-maps';
   });
 
 export default class RouteMap extends React.Component {
- 
    state = {
    data:[{long:73.6,lat:18.5}]
    };
 
    posdata=0;
- 
    componentDidMount() {
-   
    }
- 
+
    constructor() {
    super()
    }
  
- 
    render() {
    const params = this.props.route.params;
     pdata = params.pdata;
-    // const params1 = this.props.route.params;
-    // sdata = params1.sdata;
+
    var markers = [{longitude:0, latitude:0}]
+   var markerss = [{longitude:0, latitude:0}]
    for(var i=0;i<pdata.length;i++) {
      markers[i] = {longitude: Number(pdata[i].long),
            latitude: Number(pdata[i].lat)
           };
+          if(i==0 || i==pdata.length-1){
+            markerss[i] = {longitude: Number(pdata[i].long),
+                  latitude: Number(pdata[i].lat)
+                 };
+                }
      }
-    //  var title=[]
-    //  for(var i=0;i<sdata.length;i++) {
-    //   title[i] = {title: String(sdata[i].stopname)};
-    //   }
+
+
+
    return (
      <MapView style={styles.map} initialRegion={{
-      latitude:18.18,
-      longitude:73.23,
-      latitudeDelta: 1,
-      longitudeDelta: 1,
-      
-      
- 
+      latitude:Number(pdata[0].lat),
+      longitude:Number(pdata[0].long),
+      latitudeDelta: 0.09,
+      longitudeDelta: 0.09,
      }}
-     showsUserLocation={true}>
-     {markers.map(marker => (<MapView.Marker
+     
+     showsUserLocation={false}>
+     {markerss.map(marker => (<MapView.Marker
        coordinate={marker}
-      //  title={title}
-      // image={icons[marker.type] || icons.default}
+       pinColor='purple'
      />))
      }
+     
      <MapView.Polyline
        coordinates={markers}
        strokeWidth={4}
