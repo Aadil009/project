@@ -298,7 +298,7 @@ const styles = StyleSheet.create({
 	  },
 	containerView: {
 		flex:1,
-		marginTop:Constants.statusBarHeight,
+		
 	}
 })  
   
