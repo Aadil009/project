@@ -1,10 +1,12 @@
+
+
 import React, { Component } from "react";  
 import MapView from 'react-native-maps'
 import {Dimensions} from 'react-native';
 import Autocomplete from 'react-native-autocomplete-input';
-// import Constants from 'expo-constants';
+
 import {TouchableOpacity,TouchableHighlight,TouchableWithoutFeedback, StyleSheet, View, TextInput, Text, Alert ,Button, ScrollView} from "react-native";  
-// import { SafeAreaView } from "react-native-safe-area-context";
+import * as Font from 'expo-font';
 
 const stopnames = require("../stopname.json");
 
@@ -24,6 +26,7 @@ export default class Home extends Component {
 	state = {
 		data:[{long:73.6,lat:18.5}],
 		ready: true,
+		fontLoaded: false,
 		stopnames:[]
 	  };
 
@@ -32,8 +35,13 @@ export default class Home extends Component {
 	  }
 
 	  
-	  componentDidMount() {
+	  async componentDidMount() {
 		this.getCurrentPosition();
+		// await Font.loadAsync({
+		// 	'Farsan-Regular': require('./assets/fonts/Farsan-Regular.ttf'),
+		// 	'City Lights': require('./assets/fonts/City Lights.ttf'),
+		//   });
+		  this.setState({ fontLoaded: true });
 	  }
 
 	  getCurrentPosition() {
@@ -95,7 +103,8 @@ export default class Home extends Component {
 					responseJson.map((ele)=>stops.push(ele.stops));
 					responseJson.map((ele)=>stoplat.push(ele.latitude));
 					responseJson.map((ele)=>stoplong.push(ele.longitude));
-      				console.log("Length of array is:"+routes.length);
+					  console.log("Length of array is:"+routes.length);
+					  console.log("stops data"+stops)
 					this.setState({jsondata:responseJson})
       				this.setState({routeData:routes});
 					this.setState({stopsData:stops});
@@ -128,8 +137,11 @@ export default class Home extends Component {
 				this.props.navigation.navigate('RouteMap',{pdata:pdata},{sdata:sdata})		
 			}}>
 
-      			<Text style={{textAlign:"center",fontSize:20,padding:20,color:'rgb(0,0,255)',backgroundColor: 'rgb(50,150,120)',margin:5}}>{r+":"+ ++cnt}</Text>
-      			</TouchableHighlight>)});
+      			{/* <Text style={{textAlign:"center",fontSize:20,padding:20,color:'rgb(0,0,255)',backgroundColor: 'rgb(50,150,120)',margin:5}}>{r+":"+ ++cnt}</Text> */}
+				  
+				  <Text style={{textAlign:"center",zIndex:1,top:200,fontSize:15,padding:20,color:'black',backgroundColor: 'white',margin:1}}>{r+":"+ ++cnt}</Text>
+				  </TouchableHighlight>
+				  )});
 		const {query} = this.state;
 		const {query2} = this.state;
 		const stopnames = this.findLoc(query);
@@ -148,8 +160,6 @@ export default class Home extends Component {
 					textStyle={{ color: '#bc8b00' }}
 					containerStyle={{backgroundColor: 'white', borderColor: '#BC8B00'}}>
 				</MapView>
-
-
 
 				<View style={styles.mystyle}>  
 					<Autocomplete
@@ -174,11 +184,13 @@ export default class Home extends Component {
 					defaultValue={query2}
 					onChangeText={text => {this.setState({ query2: text }); console.log("hey:)", text)}}
 					placeholder="To"
-					//valueExtractor={item => item}
+
 					renderItem={( {item, i} ) => (
 
 						<TouchableOpacity onPress={() => this.setState({ query2: item })}>
+							    
 						<Text style={styles.itemText}>
+								
 							{item} 
 						</Text>
 						</TouchableOpacity>
@@ -186,20 +198,19 @@ export default class Home extends Component {
 					/>
 
 				</View>
+
+				
 				<View style={styles.findRoute}>
 					<Button 
 						title="Find Routes" onPress={this.GetValueFunction} color="red"/>
 					</View>
-				{/* <View style={styles.outputStyle}> */}
-				{/* <SafeAreaView style={styles.containerView}> */}
+				
 				<View style={styles.textoutputStyle}>
-					<ScrollView style={styles.textoutputStyle}>
+					<ScrollView >
 						<Text style={styles.outputText}>{this.state.AnswerText}</Text>
 						{textEles}
 					</ScrollView> 
 				</View>
-				{/* </SafeAreaView> */}
-				{/* </View> */}
 
 			</View>
 		);
@@ -218,22 +229,26 @@ const styles = StyleSheet.create({
 		paddingTop: 5,
 		paddingBottom: 5,
 		margin: 2,
+		//fontFamily:'Farsan-Regular'
 	  },
 	  autocompleteContainer: {
 		flex: 1,
-		borderRadius:10,
+		// borderRadius:10,
+		borderWidth: 1,
 		margin:'1%',
 		left: 0,
+		borderColor: '#9a73ef',
 		 position: 'absolute',
 		right: 0,
 		top: -5,
-		 zIndex: 1
+		zIndex: 1
 	  },
 	  autocompleteContainer2: {
 		flex: 1,
 		borderColor: '#9a73ef',  
 		borderWidth: 1, 
-		borderRadius:10,
+		margin:'1%',
+		// borderRadius:10,
 		 left: 0,
 		 position: 'absolute',
 		 right: 0,
@@ -250,6 +265,7 @@ const styles = StyleSheet.create({
 	   position: 'absolute',
 		right: 0,
 	   top: 85,
+	   zIndex: -1
 	  },
 	  contentContainer: {
 		  
@@ -270,6 +286,9 @@ const styles = StyleSheet.create({
 		  bottom:'-30%',
 		  //flex:1,
 	  },
+	  outputText: {
+		  backgroundColor: 'red',
+	  },
   	textInputStyle: {  
 		  backgroundColor:'white',
 		  	borderRadius:10,
@@ -279,15 +298,32 @@ const styles = StyleSheet.create({
     		margin: 10,  
 			padding: 10,
 			flexDirection:'row',
-			top:'-8%',
+			top:-5,
 			justifyContent:'center',
 			alignItems:'center',  
-  	},  
+	  },  
+	  textInputStyle2: {  
+		backgroundColor:'white',
+			borderRadius:10,
+		  borderColor: '#9a73ef',  
+		  borderWidth: 1,  
+		  height: 40,  
+		  margin: 10,  
+		  padding: 10,
+		  flexDirection:'row',
+		  top:'-20%',
+		  justifyContent:'center',
+		  alignItems:'center',  
+	},
   	textOutputStyle: { 
 		backgroundColor:'red',
 		marginHorizontal:100,
-		bottom:'-50%',
-		top:'-50%', 
+		//bottom:'-50%',
+		position:'absolute',
+		top: '50%',
+		//zIndex:1,
+
+		//top:'-50%', 
 		flex:1,
  
 	  },
@@ -301,4 +337,4 @@ const styles = StyleSheet.create({
 		
 	}
 })  
-  
+

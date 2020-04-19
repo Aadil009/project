@@ -1,17 +1,17 @@
 import React,{ Component} from 'react';
 import { StyleSheet, Text, View} from 'react-native';
-import { NavigationContainer } from '@react-navigation/native'
-import { createStackNavigator } from '@react-navigation/stack'
 import MapView from 'react-native-maps';
 
   const styles = StyleSheet.create({
     map: {
-    backgroundColor:'#fff',
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
+      flex:2,
+      backgroundColor:'#fff',
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      zIndex: 1,
     },
   });
 
@@ -48,6 +48,7 @@ export default class RouteMap extends React.Component {
 
 
    return (
+
      <MapView style={styles.map} initialRegion={{
       latitude:Number(pdata[0].lat),
       longitude:Number(pdata[0].long),
@@ -69,7 +70,10 @@ export default class RouteMap extends React.Component {
   
      {
    }
-   </MapView>)
+
+   </MapView>
+   
+   )
  };
  
  }
