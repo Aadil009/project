@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import Home from './components/Home'
 import RouteMap from './components/RouteMap'
+import HelloWorld from './components/HelloWorld'
 
 const Stack = createStackNavigator()
 
@@ -11,21 +12,23 @@ function MainStackNavigator() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="LET'S GO PUNEKAR'S" component={Home}
+        
+        <Stack.Screen name="LET'S GO PUNEKAR" component={Home}
           options={{
+            
             headerTitleAlign:'center'
-            //headerTransparent: true,
-            // headerBackground: () => (
-            //   <BlurView tint="light" intensity={100} style={StyleSheet.absoluteFill} />
-            // ),
+            
           }} />
-        <Stack.Screen name='RouteMap' component={RouteMap}
+          <Stack.Screen name='HelloWorld' component={HelloWorld}
         options={{
           headerTitleAlign:'center'
-          //headerTransparent: true,
-          // headerBackground: () => (
-          //   <BlurView tint="light" intensity={100} style={StyleSheet.absoluteFill} />
-          // ),
+          
+        }}
+        />
+        <Stack.Screen name='RouteMap' component={RouteMap}
+        options={{
+          headerTitleAlign:'center',
+          
         }}
         />
       </Stack.Navigator>
