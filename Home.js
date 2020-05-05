@@ -4,12 +4,14 @@ import React, { Component } from "react";
 import MapView from 'react-native-maps'
 import {Dimensions, ActivityIndicator} from 'react-native';
 import Autocomplete from 'react-native-autocomplete-input';
+import Icon from 'react-native-vector-icons/FontAwesome'
 
 import {TouchableOpacity,TouchableHighlight,TouchableWithoutFeedback, StyleSheet, View, TextInput, Text, Alert ,Button, ScrollView} from "react-native";  
 import * as Font from 'expo-font';
 
 const stopnames = require("../stopname.json");
-
+let deviceWidth = Dimensions.get('window').width
+  let deviceHeight = Dimensions.get('window').height
 const LATITUDE_DELTA = 0.01;
 const LONGITUDE_DELTA = 0.01;
 
@@ -27,7 +29,9 @@ export default class Home extends Component {
 		data:[{long:73.6,lat:18.5}],
 		ready: true,
 		fontLoaded: false,
-		stopnames:[]
+		stopnames:[],
+		open: true,
+		open1:true
 	  };
 
 	  setRegion(region) {
@@ -125,14 +129,14 @@ export default class Home extends Component {
 		
 	render() {  
 		let cnt=0;
+		let deviceWidth = Dimensions.get('window').width
 		
-
 		const { region } = this.state;
 		const { children, renderMarker, markers } = this.props;
 		let textEle1=this.state.stopsData.map((s)=>{
 		}
 		);
-		console.log('Hello'+this.state.stopsDataata)
+		// console.log('Hello'+this.state.stopsDataata)
 
 		// let textEles=this.state.routeData.map((r)=> {   
 		// 	return(<TouchableHighlight key={r} onPress={()=>{
@@ -168,8 +172,8 @@ export default class Home extends Component {
 		stopnames2 = this.findLoc(query2);
 		const comp = (a, b) => a.toLowerCase().trim() === b.toLowerCase().trim();
 		return (
-			<View style={styles.container}>
-				<MapView style={styles.map}
+			<View style={StyleSheet.absoluteFillObject}>
+				<MapView style={StyleSheet.absoluteFillObject} 
 					showsUserLocation
 					ref={ map => { this.map = map }}
 					data={markers}
@@ -181,33 +185,42 @@ export default class Home extends Component {
 					containerStyle={{backgroundColor: 'white', borderColor: '#BC8B00'}}>
 				</MapView>
 
-				<View style={styles.mystyle}>  
+				<View style={{alignItems:'center' ,margin:10,}}>  
+				<Icon style={{padding:10,zIndex:7,left:150}} name="home" size={20} color="white"/>
 					<Autocomplete
+				// 	containerStyle={{borderColor:'red',backgroundColor:'purple', position:'absolute',height:50, borderWidth:2,zIndex:1,borderRadius:5,width:deviceWidth-20
+				// }}
+				style={{borderRadius:10,backgroundColor:'#BB2CD9',height:40,color:'white'}}
 					containerStyle={styles.autocompleteContainer}
 					data={ stopnames.length == 1 && comp(query, stopnames[0])?[]:stopnames}
 					defaultValue={query}
-					onChangeText={text => {this.setState({ query: text });}}
+					hideResults={!this.state.open}
+					onChangeText={text => {this.setState({ query: text,open: true });}}
 					placeholder="From"
 					renderItem={( {item, i} ) => (
-					<TouchableOpacity onPress={() => this.setState({ query: item })}>
+					<TouchableOpacity onPress={() => this.setState({ query: item,open: false })}>
 					<Text style={styles.itemText}>
 						{item} 
 					</Text>
 					</TouchableOpacity>
 					)}
 					/>
-				</View>
-				<View style={styles.textInputstyle}>
+				
+				<Icon style={{padding:10,zIndex:7,left:150}} name="bus" size={17} color="white"/>
 					<Autocomplete
+				// 	containerStyle={{borderColor:'red', backgroundColor:'purple',position:'absolute', height:50, margin:100, borderWidth:2,borderRadius:5,width:deviceWidth-20
+				// }}
+						style={{borderRadius:10,backgroundColor:'#BB2CD9',height:40,color:'white'}}
 					containerStyle={styles.autocompleteContainer2}
 					data={ (stopnames2.length == 1 && comp(query2, stopnames2[0]))?[]:stopnames2}
 					defaultValue={query2}
-					onChangeText={text => {this.setState({ query2: text }); }}
+					hideResults={!this.state.open1}
+					onChangeText={text => {this.setState({ query2: text,open1: true  }); }}
 					placeholder="To"
 
 					renderItem={( {item, i} ) => (
 
-						<TouchableOpacity onPress={() => this.setState({ query2: item })}>
+						<TouchableOpacity onPress={() => this.setState({ query2: item ,open1: false })}>
 							    
 						<Text style={styles.itemText}>
 								
@@ -217,15 +230,17 @@ export default class Home extends Component {
 					)}
 					/>
 
-				</View>
+				
 
 				
-				<View style={styles.findRoute}>
+<View style={styles.findRoute}>
+	
 					<Button 
 						title="Find Routes" onPress={this.findRoute} color="red"/>
+						</View>
 						{/* {this.state.loading && <View style={styles.loading}>
 							<ActivityIndicator/></View>} */}
-					</View>
+					
 				
 				{/* <View style={styles.textoutputStyle}>
 					<ScrollView >
@@ -233,7 +248,7 @@ export default class Home extends Component {
 						{textEles}
 					</ScrollView> 
 				</View> */}
-
+</View>
 			</View>
 		);
 		
@@ -253,43 +268,45 @@ const styles = StyleSheet.create({
 		paddingTop: 5,
 		paddingBottom: 5,
 		margin: 2,
+		
 		//fontFamily:'Farsan-Regular'
 	  },
 	  autocompleteContainer: {
 		flex: 1,
 		// borderRadius:10,
-		borderWidth: 1,
+		// borderWidth: 1,
 		margin:'1%',
 		left: 0,
-		borderColor: '#9a73ef',
+		// borderColor: '#9a73ef',
 		 position: 'absolute',
 		right: 0,
 		top: -5,
-		zIndex: 1
+		zIndex: 6
 	  },
 	  autocompleteContainer2: {
 		flex: 1,
-		borderColor: '#9a73ef',  
-		borderWidth: 1, 
+		// borderColor: '#9a73ef',  
+		// borderWidth: 1, 
 		margin:'1%',
 		// borderRadius:10,
 		 left: 0,
 		 position: 'absolute',
 		 right: 0,
 		top: 40,
-		// zIndex: 1
+		borderRadius:10,
+		 zIndex: 5
 	  },
 	  mainStyle:{
 		  alignItems:'center',
 	  },
 	  findRoute: {
 		flex: 1,
-		left: 0,
+		 left: 0,
 		color:'red',
 	   position: 'absolute',
-		right: 0,
-	   top: 85,
-	   zIndex: -1
+		 right: 0,
+	   top: deviceHeight/7,
+	   
 	  },
 	  contentContainer: {
 		  
