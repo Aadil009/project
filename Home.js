@@ -4,7 +4,8 @@ import React, { Component } from "react";
 import MapView from 'react-native-maps'
 import {Dimensions, ActivityIndicator} from 'react-native';
 import Autocomplete from 'react-native-autocomplete-input';
-import Icon from 'react-native-vector-icons/FontAwesome'
+import Icon from 'react-native-vector-icons/FontAwesome';
+import Loader from './Loader'
 
 import {TouchableOpacity,TouchableHighlight,TouchableWithoutFeedback, StyleSheet, View, TextInput, Text, Alert ,Button, ScrollView} from "react-native";  
 import * as Font from 'expo-font';
@@ -80,6 +81,7 @@ export default class Home extends Component {
 			jsondata:0,
 			TextInputValueSource: '',
 			TextInputValueDestination: '',
+			loading: false,
 			
 		}
 	}
@@ -101,6 +103,11 @@ export default class Home extends Component {
 	}
 
 	GetValueFunction = async () =>{
+		this.setState({
+			loading: true
+		  });
+	  
+		  
 		let routes=[];
 		let stops=[];
 		let stoplat=[];
@@ -108,6 +115,7 @@ export default class Home extends Component {
 		this.setState({AnswerText:null});
 		const {query, query2} = this.state;
 		await fetch('http://192.168.43.81:5000/routes?src='+query+'&dest='+query2)
+		
 		.then((response) => response.json())
     			.then((responseJson) => {
       				responseJson.map((ele)=>routes.push(ele.route));
@@ -119,6 +127,12 @@ export default class Home extends Component {
 					this.setState({jsondata:responseJson})
       				this.setState({routeData:routes});
 					this.setState({stopsData:stops});
+					setTimeout(() => {
+						this.setState({
+						  loading: false,
+						  
+						});
+					  });
 	
     			})
     		.catch((error) => {
@@ -173,6 +187,8 @@ export default class Home extends Component {
 		const comp = (a, b) => a.toLowerCase().trim() === b.toLowerCase().trim();
 		return (
 			<View style={StyleSheet.absoluteFillObject}>
+				<Loader
+          loading={this.state.loading} />
 				<MapView style={StyleSheet.absoluteFillObject} 
 					showsUserLocation
 					ref={ map => { this.map = map }}

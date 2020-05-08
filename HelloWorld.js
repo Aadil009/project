@@ -19,20 +19,24 @@ export default class HelloWorld extends React.Component {
        let routesArray=[]
        let sourceArrivalTime=[]
        let destinationArrivalTime=[]
+       
         for(var i=0;i<3;++i){
             routesArray[i]=this.state.jsondata[i]["route"]
             sourceArrivalTime[i]=this.state.jsondata[i]["source arrival time"]
             destinationArrivalTime[i]=this.state.jsondata[i]["destination arrival time"]
+            
+
         }
-        console.log(sourceArrivalTime)
-
-
+       // console.log(this.state.stopsData[1][1]["latitude"])
+        // console.log(cordinates1)
+        
         let textEles=this.state.routeData.map((r)=> {   
         return(<TouchableHighlight style={styles.touchableStyle} underlayColor='' key={r} 
             onPress={()=>{ 
 				let stopd = this.state.stopsData[this.state.routeData.indexOf(r)]
 				let pdata = []
-				let sdata = []
+                let sdata = []
+                
 				let sadata=this.state.jsondata[this.state.routeData.indexOf(r)]
 				for(var i=0;i<stopd.length;i++) {
 					pdata.push({lat:stopd[i].latitude,long:stopd[i].longitude}) //push latitude ,longitude in pdata which are on (2,3).(5,6)....index

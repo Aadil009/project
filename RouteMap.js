@@ -1,7 +1,6 @@
 import React,{ Component} from 'react';
 import { StyleSheet, Text, View, Animated, Button, TouchableOpacity,ScrollView, Dimensions} from 'react-native';
 import MapView from 'react-native-maps';
-// import Scroller from "./scroller";
 let deviceWidth = Dimensions.get('window').width
     let deviceHeight = Dimensions.get('window').height
 
@@ -77,6 +76,7 @@ export default class RouteMap extends React.Component {
    const params = this.props.route.params;
     pdata = params.pdata.pdata;
     sdata= params.pdata.sdata;
+    
     var routesArray=[]
     var sourceArrivalTime=[]
     var destinationArrivalTime=[]
@@ -84,24 +84,30 @@ export default class RouteMap extends React.Component {
     sourceArrivalTime=params.pdata.sourceArrivalTime
     destinationArrivalTime=params.pdata.destinationArrivalTime
     var source= [params.pdata.satime,params.pdata.datime];
-     console.log(sourceArrivalTime)
+     //console.log(sourceArrivalTime)
    var markers = [{longitude:0, latitude:0}]
    var markerss = [{longitude:0, latitude:0}]
+
    var stopname= []
    var allStops= []
+
    for(var i=0;i<pdata.length;i++) {
      markers[i] = {longitude: Number(pdata[i].long),
            latitude: Number(pdata[i].lat)
           };
           allStops[i]=sdata[i].stopname;
       }
+
+      
+
                 markerss[0]=markers[0];
      markerss[1]=markers[markers.length-1]
      stopname[0]=sdata[0].stopname
      stopname[1]=sdata[sdata.length-1].stopname
-      //console.log(pdata);
-    //  console.log('Hello   '+sdata)
-    //  console.log('Aadil '+allStops)
+      
+    
+
+
      
    return (
      <View style={styles.container}>
@@ -131,6 +137,13 @@ export default class RouteMap extends React.Component {
           coordinates={markers}
           strokeWidth={4}
           strokeColor="rgba(0,0,255,0.5)"/>
+
+
+
+
+
+
+
       
         {
       }
@@ -152,16 +165,7 @@ export default class RouteMap extends React.Component {
 
 
               <ScrollView style={styles.scroll}>
-              {/* <Text style={styles.descriptionTextStyle}>Source: {stopname[0]} Destination: {stopname[1]}</Text>
-          <Text style={styles.descriptionTextStyle}>Route id: {routesArray[0]}</Text>
-          <Text style={styles.descriptionTextStyle}>Source arrival time: {sourceArrivalTime[0]}</Text>
-          <Text style={styles.descriptionTextStyle}>Destination arrival time: {destinationArrivalTime[0]}</Text>
-          <Text style={styles.descriptionTextStyle}>Route id: {routesArray[1]}</Text>
-          <Text style={styles.descriptionTextStyle}>Source arrival time: {sourceArrivalTime[1]}</Text>
-          <Text style={styles.descriptionTextStyle}>Destination arrival time: {destinationArrivalTime[1]}</Text>
-          <Text style={styles.descriptionTextStyle}>Route id: {routesArray[1]}</Text>
-          <Text style={styles.descriptionTextStyle}>Source arrival time: {sourceArrivalTime[1]}</Text>
-          <Text style={styles.descriptionTextStyle}>Destination arrival time: {destinationArrivalTime[1]}</Text> */}
+              
 
 
 

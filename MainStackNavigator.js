@@ -9,8 +9,12 @@ import HelloWorld from './components/HelloWorld'
 const Stack = createStackNavigator()
 
 function MainStackNavigator() {
+  
   return (
+
+    
     <NavigationContainer>
+      
       <Stack.Navigator>
         
         <Stack.Screen name="LET'S GO PUNEKAR" component={Home}
